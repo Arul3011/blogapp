@@ -1,0 +1,35 @@
+.div{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    /* flex-direction: column; */
+}
+input{
+   width: 90%;
+   height: 35px;
+   font-size: 2em;
+   margin-left: 10px;
+   
+}
+textarea{
+    width: 90%;
+    height: 380px;
+    overflow-Y:scroll;
+    resize: none;
+    font-size: 1rem;
+    margin-left: 10px;
+}
+button{
+    margin-top: 10px;
+    width:90%;
+    height: 35px;
+    margin-left: 10px;
+}
+.addcointainer{
+    width: 700px;
+}
+@media(max-width:800px){
+    .addcointainer{
+        width: 100%;
+    }
+}

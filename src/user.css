@@ -1,0 +1,35 @@
+.user-detiles{
+    background: #ffffff;
+    height: 100px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    
+}
+img{
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    flex: 1;
+}
+.user-detiles h2{
+    flex: 1;
+    text-align: center;
+}
+button.button{
+    width: 100px;
+    background-color: red;
+    border-radius: 5px;
+    border-width: 0px;
+    color: #ffffff;
+    font-weight: 500;
+    &:hover{
+        background-color: rgb(196, 35, 35);
+        cursor: pointer;
+    }
+}
+.edit{
+    height: 150%;
+    width: 100%;
+}
