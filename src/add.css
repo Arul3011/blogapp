@@ -1,35 +1,47 @@
-.div{
+.div {
     width: 100%;
     display: flex;
     justify-content: center;
-    /* flex-direction: column; */
 }
-input{
-   width: 90%;
-   height: 35px;
-   font-size: 2em;
-   margin-left: 10px;
-   
-}
-textarea{
+
+input {
+    display: block;
     width: 90%;
-    height: 380px;
-    overflow-Y:scroll;
+    height: 35px;
+    font-size: 1em;
+    margin: 0 auto;
+    text-transform: none;
+}
+
+textarea {
+    display: block;
+    width: 90%;
+    height: 360px;
+    overflow-Y: scroll;
     resize: none;
     font-size: 1rem;
-    margin-left: 10px;
+    margin: 0 auto
 }
-button{
+
+button {
     margin-top: 10px;
-    width:90%;
+    width: 90%;
     height: 35px;
-    margin-left: 10px;
+    display: block;
+    margin: 0 auto;
 }
-.addcointainer{
-    width: 700px;
+
+.addcointainer {
+    width: 100%;
 }
-@media(max-width:800px){
-    .addcointainer{
-        width: 100%;
+
+.addcointainer p {
+    padding: 10px;
+    margin: 0px;
+}
+
+@media(max-width:500px) {
+    textarea {
+        height: 300px;
     }
 }

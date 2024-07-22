@@ -1,35 +1,100 @@
-.user-detiles{
+.user-detiles {
     background: #ffffff;
     height: 100px;
     width: 100%;
-    display: flex;
-    justify-content: space-between;
     margin-top: 30px;
-    
+
 }
-img{
+
+img {
     height: 100px;
     width: 100px;
     border-radius: 50%;
     flex: 1;
 }
-.user-detiles h2{
+
+.user-detiles h2 {
     flex: 1;
     text-align: center;
 }
-button.button{
+
+button.button {
     width: 100px;
     background-color: red;
     border-radius: 5px;
     border-width: 0px;
     color: #ffffff;
     font-weight: 500;
-    &:hover{
+    display: block;
+    position: static;
+    margin: 0;
+    right: 0;
+
+    &:hover {
         background-color: rgb(196, 35, 35);
         cursor: pointer;
     }
+
+    * {
+        color: #ffffff;
+        font-size: 1.5em;
+    }
 }
-.edit{
+
+.delbtncon {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+
+}
+
+.edit {
     height: 150%;
     width: 100%;
+}
+
+dialog {
+    background-color: #ffffff;
+    width: 300px;
+    border-radius: 10px;
+    border-style: none;
+    box-shadow: 1px 1px 10px gray;
+    height: 150px;
+}
+
+dialog .dilogbtn {
+    width: 100%;
+    display: flex;
+
+
+    p {
+        width: 100%;
+        text-align: center;
+        margin: 30px 0px
+    }
+
+    button {
+        width: 100px;
+        margin-top: 10px;
+        border-radius: 7px;
+        border-style: none;
+        font-weight: 500;
+        border-style: solid;
+        border-width: 1px;
+        cursor: pointer;
+
+        &:last-child {
+            background-color: red;
+            border-radius: 7px;
+            border-style: none;
+            color: #ffffff;
+            font-weight: 500;
+
+            &:hover {
+                background-color: rgb(252, 33, 33);
+            }
+        }
+    }
+
+
 }

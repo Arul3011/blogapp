@@ -1,27 +1,73 @@
-
-*{
+* {
     text-decoration: none;
     font-weight: 300;
     text-transform: capitalize;
     color: black;
 }
-li{
+
+li {
     padding: 10px;
     margin: 10px;
     box-shadow: 1px 1px 10px gray;
     border-radius: 5px;
     list-style: none;
-   
-    &:hover{
+
+    &:hover {
         box-shadow: 1px 1px 10px black;
 
     }
 }
-ul{
+
+ul {
     padding: 0px;
 }
-input{
+
+input {
     width: 100%;
     margin-top: 20px;
-    
+
+}
+
+.navbar {
+    display: none;
+    width: 100px;
+    height: fit-content;
+    position: fixed;
+    top: 60px;
+    right: 13%;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px gray;
+    animation: appear 500ms;
+
+
+    li {
+        box-shadow: 0 0 0;
+        cursor: pointer;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        padding: 10px 0px;
+        font-weight: 500;
+
+        &:hover {
+            background-color: blue;
+            color: white;
+
+        }
+    }
+}
+
+
+
+@keyframes appear {
+    from {
+
+        opacity: 0;
+    }
+
+    to {
+
+        opacity: 1;
+    }
 }

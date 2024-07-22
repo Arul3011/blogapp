@@ -1,43 +1,100 @@
-import React, { useState } from 'react'
-import './add.css'
-function Add({data,setData}) {
-  const [addtitle,setAddtitle]=useState("")
-  const [addblog,setaddblog]=useState("")
-  const date = new Date()
-  const arrayobj = {
-    id: data.length ===0 ? data.length :data.length+1,
-    title : addtitle,
-    time: `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`,
-    blog: addblog
-  }
-  function addnewblog(){
-    setData([...data,arrayobj])
-      console.log(data);
-      setaddblog("")
-      setAddtitle("")
-  }
+import React, { useContext, useEffect, useState } from "react";
+import "./add.css";
+import Header from "./Header";
+import { useForm } from "react-hook-form";
+import DataContext from "../src/DataContext/DataContext";
+import { Nav } from "./Nav";
+import { useNavigate } from "react-router";
+function Add(props) {
+  const {
+    register,
+    handleSubmit,
+    setError,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm();
+  const navigate = useNavigate();
+  const { userID, setUserID } = useContext(DataContext);
+  const date = new Date();
+  const onsubmit = async (data) => {
+    try {
+      const frtres = await fetch("http://localhost:3000/api/posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: data.title,
+          time: `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`,
+          blog: data.blog,
+          userID: userID,
+        }),
+      });
+      const dbres = await frtres.json();
+      reset({ blog: "" });
+      reset({ title: "" });
+      navigate("/");
+      props.setData([...props.data, dbres]);
+    } catch (error) {
+      setError("root", {
+        message: "something went wrong",
+      });
+      console.log(error);
+    }
+  };
+
+  const [localId, setLocalId] = useState(false);
+  window.addEventListener("load", () => {
+    setLocalId(!localId);
+  });
+
+  useEffect(() => {
+    if (document.cookie) {
+      const cokie = document.cookie.split(";");
+      const value = cokie[0].split("=");
+
+      setUserID(value[1]);
+    }
+  }, []);
+
   return (
-    <div className='div'>
-     <div className="addcointainer">
-      <p>TITLE</p>
-     <input type="text"
-      name=""
-       id="one"
-       value={addtitle}
-       onChange={(e)=> setAddtitle(e.target.value)}
-       />
-     <p>BLOG</p>
-    <textarea 
-    name="" 
-    id="two"
-    value={addblog}
-    onChange={(e)=> setaddblog(e.target.value)}
-    ></textarea>
-    <br />
-    <button onClick={addnewblog} >add</button>
-     </div>
-    </div>
-  )
+    <>
+      <Header className="header" />
+      <Nav />
+      <div className="div">
+        <div className="addcointainer">
+          <p>TITLE</p>
+          <form onSubmit={handleSubmit(onsubmit)}>
+            <input
+              type="text"
+              name=""
+              id="one"
+              {...register("title", {
+                required: "not be empty",
+              })}
+            />
+            {errors.title && (
+              <div className="error">{errors.title.message}</div>
+            )}
+            <p>BLOG</p>
+            <textarea
+              id="two"
+              {...register("blog", {
+                required: "not be empty",
+              })}
+            ></textarea>
+            <br />
+            {errors.blog && <div className="error">{errors.blog.message}</div>}
+
+            <button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Posting..." : "POST"}
+            </button>
+            {errors.root && <div className="error">{errors.blog.message}</div>}
+          </form>
+        </div>
+      </div>
+    </>
+  );
 }
 
-export default Add
+export default Add;

@@ -1,6 +1,37 @@
-.blog{
+.blog {
     padding: 0px 20px;
+    overflow: scrollS;
 }
-.p{
-    text-align: justify;
+
+pre {
+    white-space: pre-wrap;
+    overflow-x: auto;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.blogbtn {
+    width: 70px;
+    margin: 0;
+    margin-top: 20px;
+    border-radius: 5px;
+    border-style: none;
+    box-shadow: 1px 1px 10px gray;
+}
+
+.scroolbtn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border-style: none;
+    background-color: blue;
+    font-size: 2em;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    position: fixed;
+    right: 7%;
+    bottom: 50px;
 }
