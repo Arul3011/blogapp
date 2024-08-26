@@ -11,22 +11,26 @@ const Login = () => {
     formState: { errors, isSubmitting },
   } = useForm();
   const navigate = useNavigate();
-  const { setUser, setUserID } = useContext(DataContext);
+  const { setUser, setUserID, setuserName } = useContext(DataContext);
   const onSubmit = async (data) => {
     try {
-      const dbresponse = await fetch("http://localhost:3000/api/user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: data.email,
-          password: data.password,
-        }),
-      });
+      const dbresponse = await fetch(
+        "https://next-api-blogapp.vercel.app/api/user",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: data.email,
+            password: data.password,
+          }),
+        }
+      );
       const dbres = await dbresponse.json();
       if (dbres.request === true) {
         setUserID(dbres.userId);
+        setuserName(dbres.name);
         setUser(true);
         navigate("/");
         document.cookie = `userId=${dbres.userId};path=/`;
@@ -45,6 +49,9 @@ const Login = () => {
       <form className="loginform" onSubmit={handleSubmit(onSubmit)}>
         <p>LOGIN</p>
         <input
+          style={{
+            margin: "10px auto",
+          }}
           type="email"
           placeholder="email.."
           {...register("email", {
@@ -59,6 +66,9 @@ const Login = () => {
         />
         {errors.email && <div className="error">{errors.email.message}</div>}
         <input
+          style={{
+            margin: "10px auto",
+          }}
           type="password"
           placeholder="Password..."
           {...register("password", {
@@ -80,7 +90,15 @@ const Login = () => {
           {errors.root && (
             <div className="errorroot">{errors.root.message}</div>
           )}
-          <Link className="linkp" to={"/sigin"}>
+          <Link
+            className="linkp"
+            to={"/sigin"}
+            style={{
+              cursor: "pointer",
+              textDecoration: "underLine",
+              color: "blue",
+            }}
+          >
             createa account
           </Link>
         </div>

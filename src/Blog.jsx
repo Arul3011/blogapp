@@ -19,7 +19,7 @@ const Blog = ({ data }) => {
   return (
     <div className="blog">
       <button className="blogbtn" onClick={handelback} id="top">
-        BACK
+        HOME
       </button>
       <h2>{blogdata[0].title}</h2>
 

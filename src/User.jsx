@@ -7,7 +7,7 @@ import { Nav } from "./Nav";
 import { FaTrashAlt } from "@react-icons/all-files/fa/FaTrashAlt";
 
 function User() {
-  const { userID, setUserID } = useContext(DataContext);
+  const { userID, setUserID, userName } = useContext(DataContext);
   const [resdata, setResdata] = useState([]);
   const [delid, setDelid] = useState("");
   const [localId, setLocalId] = useState(false);
@@ -18,13 +18,16 @@ function User() {
   useEffect(() => {
     const userpost = async () => {
       try {
-        const dbres = await fetch("http://localhost:3000/api/posts/getpost", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ userID: userID }),
-        });
+        const dbres = await fetch(
+          "https://next-api-blogapp.vercel.app/api/posts/getpost",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userID: userID }),
+          }
+        );
         const response = await dbres.json();
         setResdata(response.insertresponse);
       } catch (error) {
@@ -36,13 +39,16 @@ function User() {
 
   const handeldeletpost = async (id) => {
     try {
-      const dbres = await fetch("http://localhost:3000/api/posts", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ _id: id }),
-      });
+      const dbres = await fetch(
+        "https://next-api-blogapp.vercel.app/api/posts",
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ _id: id }),
+        }
+      );
       const response = await dbres.json();
       if (response.message === true) {
         setResdata([...resdata.filter((val) => val._id !== id)]);
@@ -69,38 +75,42 @@ function User() {
   useEffect(() => {
     if (document.cookie) {
       const cokie = document.cookie.split(";");
+      // console.log(document.cookie);
+
       const value = cokie[0].split("=");
 
       setUserID(value[1]);
     }
   }, []);
+
   return (
     <div>
       <Header className="header" />
       <Nav />
       <div className="user-details"></div>
       <ul>
-        <h2>Posts</h2>
+        <h2>{userName}</h2>
         {resdata.length === 0 ? (
           <p>nopost</p>
         ) : (
           resdata.map((val) => (
             <div key={val._id}>
-              <li>
-                <h2>{val.title}</h2>
-                <p>{val.blog.slice(0, 25)}....</p>
-                <small>{val.time}</small>
-                <div className="delbtncon">
-                  <button
-                    className="button"
-                    onClick={() => {
-                      togelDilog(val._id);
-                    }}
-                  >
-                    <FaTrashAlt />
-                  </button>
-                </div>
-              </li>
+              <Link to={`/${val._id}`}>
+                <li>
+                  <h2>{val.title}</h2>
+                  <p>{val.blog.slice(0, 25)}....</p>
+                  <small>{val.time}</small>
+                  <div className="delbtncon"></div>
+                </li>
+              </Link>
+              <button
+                className="button"
+                onClick={() => {
+                  togelDilog(val._id);
+                }}
+              >
+                <FaTrashAlt />
+              </button>
             </div>
           ))
         )}

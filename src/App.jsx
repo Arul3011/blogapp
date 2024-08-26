@@ -9,6 +9,8 @@ import Blog from "./Blog";
 import Login from "./Login";
 import Sigin from "./Sigin";
 import { DataProvider } from "../src/DataContext/DataContext";
+import { Verfiy } from "./Verfiy";
+import { Otp } from "./Otp";
 
 function App() {
   const [data, setData] = useState([]);
@@ -16,7 +18,9 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const dbres = await fetch("http://localhost:3000/api/posts");
+        const dbres = await fetch(
+          "https://next-api-blogapp.vercel.app/api/posts"
+        );
         const datajson = await dbres.json();
         if (datajson) {
           setData(datajson.dbresponse.reverse());
@@ -35,6 +39,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/sigin" element={<Sigin />} />
+
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<Home data={data} />} />
             <Route

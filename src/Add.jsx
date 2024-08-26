@@ -18,18 +18,21 @@ function Add(props) {
   const date = new Date();
   const onsubmit = async (data) => {
     try {
-      const frtres = await fetch("http://localhost:3000/api/posts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: data.title,
-          time: `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`,
-          blog: data.blog,
-          userID: userID,
-        }),
-      });
+      const frtres = await fetch(
+        "https://next-api-blogapp.vercel.app/api/posts",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: data.title,
+            time: `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`,
+            blog: data.blog,
+            userID: userID,
+          }),
+        }
+      );
       const dbres = await frtres.json();
       reset({ blog: "" });
       reset({ title: "" });
