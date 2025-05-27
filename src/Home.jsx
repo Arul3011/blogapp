@@ -1,56 +1,55 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import "./home.css";
 import Header from "./Header";
 import DataContext from "./DataContext/DataContext";
 import React from "react";
 import { Nav } from "./Nav";
+
+const stripHtml = (html) => {
+  const temp = document.createElement("div");
+  temp.innerHTML = html;
+  return temp.textContent || temp.innerText || "";
+};
+
 const Home = ({ data }) => {
-  const { search, setuserName, setUserID } = useContext(DataContext);
+  const { search, setUserID } = useContext(DataContext);
+
   useEffect(() => {
     if (document.cookie) {
-      const cokie = document.cookie.split(";");
-      const value = cokie[0].split("=");
-      setUserID(value[1]);
+      const cookie = document.cookie.split(";")[0];
+      const value = cookie.split("=")[1];
+      setUserID(value);
     }
   }, []);
+
+  const filteredData = search
+    ? data.filter((val) =>
+        val.title.toLowerCase().includes(search.toLowerCase())
+      )
+    : data;
+
   return (
     <div>
-      <Header className="header" />
+      <Header />
       <Nav />
-      <Link to={"/add"} className="addbtn">
+      <Link to="/add" className="add-btn">
         +
       </Link>
 
-      <ul>
-        {data && data.length === 0 ? (
-          <p>loading....</p>
-        ) : search ? (
-          data
-            .filter((val) =>
-              val.title.toLowerCase().includes(search.toLowerCase())
-            )
-            .map((val) => (
-              <Link key={val._id} to={`/${val._id}`}>
-                <li>
-                  <h2>{val.title}</h2>
-                  <p>{val.blog.slice(0, 25)}....</p>
-                  <small>{val.time}</small>
-                </li>
-              </Link>
-            ))
+      <div className="blog-list">
+        {data.length === 0 ? (
+          <p className="loading">Loading...</p>
         ) : (
-          data.map((val) => (
-            <Link key={val._id} to={`/${val._id}`}>
-              <li>
-                <h2>{val.title}</h2>
-                <p>{val.blog.slice(0, 25)}....</p>
-                <small>{val.time}</small>
-              </li>
+          filteredData.map((val) => (
+            <Link key={val._id} to={`/${val._id}`} className="blog-card">
+              <h2>{val.title}</h2>
+              <p>{stripHtml(val.blog).slice(0, 100)}...</p>
+              <small>{val.time}</small>
             </Link>
           ))
         )}
-      </ul>
+      </div>
     </div>
   );
 };

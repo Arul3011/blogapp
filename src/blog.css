@@ -1,37 +1,100 @@
-.blog {
-    padding: 0px 20px;
-    overflow: scrollS;
+.blog-page {
+  padding: 30px 15px;
+  background-color: #f4f4f4;
+  min-height: 100vh;
+  position: relative;
 }
 
-pre {
-    white-space: pre-wrap;
-    overflow-x: auto;
-    padding: 10px;
-    border-radius: 5px;
+.blog-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.blogbtn {
-    width: 70px;
-    margin: 0;
-    margin-top: 20px;
-    border-radius: 5px;
-    border-style: none;
-    box-shadow: 1px 1px 10px gray;
+.blog-card {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+  position: relative;
 }
 
-.scroolbtn {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border-style: none;
-    background-color: blue;
-    font-size: 2em;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    position: fixed;
-    right: 7%;
-    bottom: 50px;
+.home-button-top {
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  margin-bottom: 20px;
+  transition: background-color 0.3s;
+}
+
+.home-button-top:hover {
+  background-color: #004c99;
+}
+
+.blog-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.blog-content {
+  line-height: 1.8;
+  color: #444;
+  font-size: 16px;
+}
+
+.blog-content h1,
+.blog-content h2,
+.blog-content h3 {
+  margin: 20px 0 10px;
+}
+
+.blog-content p {
+  margin-bottom: 16px;
+}
+
+.blog-content strong {
+  font-weight: bold;
+}
+
+.blog-content em {
+  font-style: italic;
+}
+
+.blog-content u {
+  text-decoration: underline;
+}
+
+.scroll-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  padding: 12px 14px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transition: background-color 0.3s;
+}
+
+.scroll-button:hover {
+  background-color: #004c99;
+}
+
+.blog-not-found {
+  text-align: center;
+  padding: 100px 20px;
+  font-size: 24px;
+  color: #999;
 }
