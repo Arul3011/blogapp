@@ -10,118 +10,122 @@ function User() {
   const { userID, setUserID, userName } = useContext(DataContext);
   const [resdata, setResdata] = useState([]);
   const [delid, setDelid] = useState("");
-  const [localId, setLocalId] = useState(false);
-  window.addEventListener("load", () => {
-    setLocalId(!localId);
-  });
-  const dilogref = useRef(null);
+  const dialogRef = useRef(null);
+
+  // Safely get userID from cookies
   useEffect(() => {
-    const userpost = async () => {
+    const cookies = document.cookie.split(";");
+    for (let c of cookies) {
+      const [key, value] = c.trim().split("=");
+      if (key === "userId") {
+        setUserID(value);
+      }
+    }
+  }, [setUserID]);
+
+  // Fetch user's posts
+  useEffect(() => {
+    const fetchUserPosts = async () => {
       try {
         const dbres = await fetch(
           "https://next-api-blogapp.vercel.app/api/posts/getpost",
           {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ userID: userID }),
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userID }),
           }
         );
         const response = await dbres.json();
         setResdata(response.insertresponse);
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching posts:", error);
       }
     };
-    userpost();
-  }, [localId]);
 
-  const handeldeletpost = async (id) => {
+    if (userID) {
+      fetchUserPosts();
+    }
+  }, [userID]);
+
+  // Delete post by ID
+  const handleDeletePost = async (id) => {
     try {
       const dbres = await fetch(
         "https://next-api-blogapp.vercel.app/api/posts",
         {
           method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ _id: id }),
         }
       );
       const response = await dbres.json();
       if (response.message === true) {
-        setResdata([...resdata.filter((val) => val._id !== id)]);
-      } else {
-        return;
+        setResdata((prev) => prev.filter((val) => val._id !== id));
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error deleting post:", error);
     }
   };
-  function togelDilog(val) {
-    dilogref.current.showModal();
-    setDelid(val);
-  }
-  function dilogfunction(val) {
-    if (val) {
-      dilogref.current.close();
-      handeldeletpost(delid);
-      setDelid("");
-    } else {
-      dilogref.current.close();
-    }
-  }
-  useEffect(() => {
-    if (document.cookie) {
-      const cokie = document.cookie.split(";");
-      // console.log(document.cookie);
 
-      const value = cokie[0].split("=");
+  const openDialog = (id) => {
+    setDelid(id);
+    dialogRef.current.showModal();
+  };
 
-      setUserID(value[1]);
+  const handleDialogAction = (confirm) => {
+    if (confirm) {
+      handleDeletePost(delid);
     }
-  }, []);
+    dialogRef.current.close();
+    setDelid("");
+  };
 
   return (
     <div>
-      <Header className="header" />
+      <Header />
       <Nav />
-      <div className="user-details"></div>
-      <ul>
-        <h2>{userName}</h2>
+
+      <div className="user-container">
+        <h2 className="user-heading">Hello, {userName}</h2>
+
         {resdata.length === 0 ? (
-          <p>nopost</p>
+          <p className="no-post">You haven't posted anything yet.</p>
         ) : (
-          resdata.map((val) => (
-            <div key={val._id}>
-              <Link to={`/${val._id}`}>
-                <li>
-                  <h2>{val.title}</h2>
-                  <p>{val.blog.slice(0, 25)}....</p>
-                  <small>{val.time}</small>
-                  <div className="delbtncon"></div>
-                </li>
-              </Link>
-              <button
-                className="button"
-                onClick={() => {
-                  togelDilog(val._id);
-                }}
-              >
-                <FaTrashAlt />
-              </button>
-            </div>
-          ))
+          <ul className="user-post-list">
+            {resdata.map((val) => (
+              <li className="user-post" key={val._id}>
+                <div className="post-content">
+                  <Link to={`/${val._id}`} className="post-link">
+                    <h3>{val.title}</h3>
+                    <p>{val.blog.slice(0, 60)}...</p>
+                    <small>{val.time}</small>
+                  </Link>
+                </div>
+                <button
+                  className="delete-button"
+                  onClick={() => openDialog(val._id)}
+                  title="Delete post"
+                >
+                  <FaTrashAlt />
+                </button>
+              </li>
+            ))}
+          </ul>
         )}
-      </ul>
-      <dialog ref={dilogref}>
-        <div className="dilogbtn">
-          <p>want to delete this post</p>
-        </div>
-        <div className="dilogbtn">
-          <button onClick={() => dilogfunction(false)}>cancel</button>
-          <button onClick={() => dilogfunction(true)}>OK</button>
+      </div>
+
+      <dialog ref={dialogRef} className="delete-dialog">
+        <div className="dialog-content">
+          <p>Are you sure you want to delete this post?</p>
+          <div className="dialog-actions">
+            <button onClick={() => handleDialogAction(false)}>Cancel</button>
+            <button
+              onClick={() => handleDialogAction(true)}
+              className="confirm"
+            >
+              Delete
+            </button>
+          </div>
         </div>
       </dialog>
     </div>

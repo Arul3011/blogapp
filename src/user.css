@@ -1,102 +1,131 @@
-.user-detiles {
-    background: #ffffff;
-    height: 100px;
-    width: 100%;
-    margin-top: 30px;
-
+/* Container */
+.user-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-img {
-    height: 100px;
-    width: 100px;
-    border-radius: 50%;
-    flex: 1;
+/* Heading */
+.user-heading {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
-.user-detiles h2 {
-    flex: 1;
-    text-align: center;
+/* No post message */
+.no-post {
+  text-align: center;
+  font-size: 1rem;
+  color: #777;
 }
 
-button.button {
-    width: 100px;
-    background-color: red;
-    border-radius: 5px;
-    border-width: 0px;
-    color: #ffffff;
-    font-weight: 500;
-    display: block;
-    position: static;
-    margin: 0;
-    margin-left: 20px;
-    right: 0;
-
-    &:hover {
-        background-color: rgb(196, 35, 35);
-        cursor: pointer;
-    }
-
-    * {
-        color: #ffffff;
-        font-size: 1.5em;
-    }
+/* Post List */
+.user-post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.delbtncon {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-
+.user-post {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8f8f8;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.edit {
-    height: 150%;
-    width: 100%;
+/* Post Link Area */
+.post-link {
+  text-decoration: none;
+  color: #222;
+  flex-grow: 1;
 }
 
-dialog {
-    background-color: #ffffff;
-    width: 300px;
-    border-radius: 10px;
-    border-style: none;
-    box-shadow: 1px 1px 10px gray;
-    height: 150px;
+.post-link h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
 }
 
-dialog .dilogbtn {
-    width: 100%;
-    display: flex;
+.post-link p {
+  margin: 0.5rem 0;
+  color: #555;
+  font-size: 0.95rem;
+}
 
+.post-link small {
+  color: #888;
+  font-size: 0.8rem;
+}
 
-    p {
-        width: 100%;
-        text-align: center;
-        margin: 30px 0px
-    }
+/* Delete Button */
+.delete-button {
+  background: none;
+  border: none;
+  color: #e74c3c;
+  font-size: 1.3rem;
+  cursor: pointer;
+  margin-left: 1rem;
+  transition: transform 0.2s ease;
+}
 
-    button {
-        width: 100px;
-        margin-top: 10px;
-        border-radius: 7px;
-        border-style: none;
-        font-weight: 500;
-        border-style: solid;
-        border-width: 1px;
-        cursor: pointer;
+.delete-button:hover {
+  transform: scale(1.2);
+}
 
+/* Dialog */
+.delete-dialog {
+  padding: 1.5rem;
+  border: none;
+  border-radius: 10px;
+  max-width: 90%;
+  width: 300px;
+}
 
-        &:last-child {
-            background-color: red;
-            border-radius: 7px;
-            border-style: none;
-            color: #ffffff;
-            font-weight: 500;
+.dialog-content p {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  text-align: center;
+}
 
-            &:hover {
-                background-color: rgb(252, 33, 33);
-            }
-        }
-    }
+.dialog-actions {
+  display: flex;
+  justify-content: space-around;
+}
 
+.dialog-actions button {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.95rem;
+}
 
+.dialog-actions button:first-child {
+  background-color: #ccc;
+  color: #000;
+}
+
+.dialog-actions button.confirm {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .user-post {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .delete-button {
+    align-self: flex-end;
+    margin-top: 0.5rem;
+  }
 }
