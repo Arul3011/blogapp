@@ -50,6 +50,7 @@ function App() {
               path="/user"
               element={<User data={data} setData={setData} />}
             />
+          
             <Route path="/:id" element={<Blog data={data} />} />
           </Route>
         </Routes>

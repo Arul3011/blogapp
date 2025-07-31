@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+
 export const Emailotp = (props) => {
   const {
     register,
@@ -8,6 +8,7 @@ export const Emailotp = (props) => {
     setError,
     formState: { errors, isSubmitting },
   } = useForm();
+
   const onSubmit = async (data) => {
     try {
       const dbres = await fetch(
@@ -15,7 +16,7 @@ export const Emailotp = (props) => {
         {
           method: "POST",
           headers: {
-            "content-type": "application/json",
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             otp: data.otp,
@@ -24,11 +25,11 @@ export const Emailotp = (props) => {
         }
       );
       const resjson = await dbres.json();
+
       if (resjson.states) {
         props.setState(props.state + 1);
         props.setEmailId(data.email);
       } else {
-        console.log(resjson.message);
         setError("otp", {
           message: resjson.message,
         });
@@ -37,59 +38,109 @@ export const Emailotp = (props) => {
       console.log(error);
     }
   };
+
   return (
-    <div className="logindiv">
-      <form className="loginform" onSubmit={handleSubmit(onSubmit)}>
-        <p>VERFIY OTP</p>
-        <div className="">
-          <input
-            style={{
-              margin: "10px auto",
-            }}
-            type="email"
-            placeholder="Email"
-            {...register("email", {
-              required: "email is required",
-            })}
-          />
-          {errors.email && <div className="error">{errors.email.message}</div>}
-          <input
-            style={{
-              margin: "10px auto",
-            }}
-            type="text"
-            maxLength={4}
-            placeholder="otp"
-            {...register("otp", {
-              required: "otp is required",
-            })}
-          />
-          {errors.otp && <div className="error">{errors.otp.message}</div>}
-          <button>{isSubmitting ? "Loading..." : "verfiy OTP"}</button>
-        </div>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        background: "#f4f4f4",
+      }}
+    >
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        style={{
+          background: "#fff",
+          padding: "30px 40px",
+          borderRadius: "10px",
+          boxShadow: "0 0 12px rgba(0, 0, 0, 0.1)",
+          width: "90%",
+          maxWidth: "400px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "15px",
+        }}
+      >
+        <h2 style={{ textAlign: "center", marginBottom: "10px" }}>
+          Verify OTP
+        </h2>
+
+        <input
+          type="email"
+          placeholder="Enter your email"
+          {...register("email", {
+            required: "Email is required",
+          })}
+          style={{
+            padding: "10px",
+            fontSize: "1em",
+            borderRadius: "6px",
+            border: "1px solid #ccc",
+          }}
+        />
+        {errors.email && (
+          <p style={{ color: "red", fontSize: "0.9em" }}>
+            {errors.email.message}
+          </p>
+        )}
+
+        <input
+          type="text"
+          maxLength={4}
+          placeholder="Enter 4-digit OTP"
+          {...register("otp", {
+            required: "OTP is required",
+          })}
+          style={{
+            padding: "10px",
+            fontSize: "1em",
+            borderRadius: "6px",
+            border: "1px solid #ccc",
+          }}
+        />
+        {errors.otp && (
+          <p style={{ color: "red", fontSize: "0.9em" }}>
+            {errors.otp.message}
+          </p>
+        )}
+
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          style={{
+            padding: "10px",
+            backgroundColor: "#007bff",
+            color: "white",
+            border: "none",
+            borderRadius: "6px",
+            cursor: "pointer",
+            fontSize: "1em",
+            transition: "0.3s",
+          }}
+        >
+          {isSubmitting ? "Verifying..." : "Verify OTP"}
+        </button>
 
         {errors.root && (
-          <div
-            className="error"
-            style={{
-              marginLeft: "50px",
-              marginBottom: "20px",
-              marginTop: "20px",
-            }}
-          >
+          <p style={{ color: "red", fontSize: "0.9em" }}>
             {errors.root.message}
-          </div>
+          </p>
         )}
+
         <p
           onClick={() => props.setState(props.state - 2)}
           style={{
-            fontSize: "1em",
+            textAlign: "center",
+            color: "#007bff",
             cursor: "pointer",
-            textDecoration: "underLine",
-            color: "blue",
+            textDecoration: "underline",
+            marginTop: "10px",
+            fontSize: "0.95em",
           }}
         >
-          {" Verfiy Email"}
+          ← Back to Email Verification
         </p>
       </form>
     </div>

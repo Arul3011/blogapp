@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "./login.css";
 import DataContext from "./DataContext/DataContext";
+
 const Login = () => {
   const {
     register,
@@ -10,11 +11,13 @@ const Login = () => {
     setError,
     formState: { errors, isSubmitting },
   } = useForm();
+
   const navigate = useNavigate();
   const { setUser, setUserID, setuserName } = useContext(DataContext);
+
   const onSubmit = async (data) => {
     try {
-      const dbresponse = await fetch(
+      const response = await fetch(
         "https://next-api-blogapp.vercel.app/api/user",
         {
           method: "POST",
@@ -27,81 +30,66 @@ const Login = () => {
           }),
         }
       );
-      const dbres = await dbresponse.json();
-      if (dbres.request === true) {
-        setUserID(dbres.userId);
-        setuserName(dbres.name);
+      const result = await response.json();
+
+      if (result.request === true) {
+        setUserID(result.userId);
+        setuserName(result.name);
         setUser(true);
+        document.cookie = `userId=${result.userId};path=/`;
         navigate("/");
-        document.cookie = `userId=${dbres.userId};path=/`;
       } else {
         setError("root", {
-          message: "email or password not valid",
+          message: "Email or password is not valid",
         });
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
   return (
-    <div className="logindiv">
-      <form className="loginform" onSubmit={handleSubmit(onSubmit)}>
-        <p>LOGIN</p>
+    <div className="login-container">
+      <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
+        <h2>Login</h2>
+
         <input
-          style={{
-            margin: "10px auto",
-          }}
           type="email"
-          placeholder="email.."
+          placeholder="Enter your email"
           {...register("email", {
-            required: "email is required",
-            validate: (value) => {
-              if (!value.includes("@")) {
-                return "email must includes @";
-              }
-              return true;
-            },
+            required: "Email is required",
+            validate: (value) =>
+              value.includes("@") || "Email must include @",
           })}
         />
-        {errors.email && <div className="error">{errors.email.message}</div>}
+        {errors.email && <p className="error-text">{errors.email.message}</p>}
+
         <input
-          style={{
-            margin: "10px auto",
-          }}
           type="password"
-          placeholder="Password..."
+          placeholder="Enter your password"
           {...register("password", {
+            required: "Password is required",
             minLength: {
               value: 8,
-              message: "minimum 8 character required",
+              message: "Minimum 8 characters required",
             },
-            required: "password is required",
           })}
         />
         {errors.password && (
-          <div className="error">{errors.password.message}</div>
+          <p className="error-text">{errors.password.message}</p>
         )}
 
-        <div className="btncon">
-          <button disabled={isSubmitting} type="submit">
-            {isSubmitting ? "Looding..." : "LOGIN"}
-          </button>
-          {errors.root && (
-            <div className="errorroot">{errors.root.message}</div>
-          )}
-          <Link
-            className="linkp"
-            to={"/sigin"}
-            style={{
-              cursor: "pointer",
-              textDecoration: "underLine",
-              color: "blue",
-            }}
-          >
-            createa account
-          </Link>
-        </div>
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Loading..." : "Login"}
+        </button>
+
+        {errors.root && (
+          <p className="error-text center">{errors.root.message}</p>
+        )}
+
+        <Link className="link-text" to="/sigin">
+          Create an account
+        </Link>
       </form>
     </div>
   );

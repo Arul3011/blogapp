@@ -1,7 +1,8 @@
 import React from "react";
-
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import "./verfiy.css"; // 👈 Add this line to include external CSS
+
 export const Verfiy = (props) => {
   const {
     register,
@@ -9,6 +10,7 @@ export const Verfiy = (props) => {
     setError,
     formState: { errors, isSubmitting },
   } = useForm();
+
   const onSubmit = async (data) => {
     try {
       const dbres = await fetch(
@@ -18,9 +20,7 @@ export const Verfiy = (props) => {
           headers: {
             "content-type": "application/json",
           },
-          body: JSON.stringify({
-            email: data.email,
-          }),
+          body: JSON.stringify({ email: data.email }),
         }
       );
       const resjson = await dbres.json();
@@ -29,61 +29,37 @@ export const Verfiy = (props) => {
         props.setEmailId(data.email);
       } else {
         setError("root", {
-          message: resjson.messege,
+          message: resjson.message,
         });
-        // console.log(resjson.messege);
       }
     } catch (error) {
       console.log(error);
     }
   };
-  return (
-    <div className="logindiv">
-      <form className="loginform" onSubmit={handleSubmit(onSubmit)}>
-        <p>ENTER YOUR EMAIL</p>
-        <div className="">
-          <input
-            style={{
-              margin: "10px auto",
-            }}
-            type="text"
-            placeholder="Enter your email"
-            {...register("email", {
-              required: "requered",
-            })}
-          />
-          {errors.email && <div className="error">{errors.email.message}</div>}
 
-          <button>{isSubmitting ? "Loading..." : "verfiy "}</button>
-          {errors.root && <div className="error">{errors.root.message}</div>}
-        </div>
-        <Link
-          className="linkp"
-          to={"/login"}
-          style={{ textAlign: "center", width: "100%" }}
-        >
-          <p
-            style={{
-              fontSize: "1em",
-              cursor: "pointer",
-              textDecoration: "underLine",
-              color: "blue",
-              marginBottom: "-10px",
-            }}
-          >
-            already have account
-          </p>
+  return (
+    <div className="verify-container">
+      <form className="verify-form" onSubmit={handleSubmit(onSubmit)}>
+        <h2>Enter Your Email</h2>
+
+        <input
+          type="text"
+          placeholder="Enter your email"
+          {...register("email", { required: "Email is required" })}
+        />
+        {errors.email && <p className="error-text">{errors.email.message}</p>}
+
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Loading..." : "Verify"}
+        </button>
+        {errors.root && <p className="error-text">{errors.root.message}</p>}
+
+        <Link className="link-text" to="/login">
+          Already have an account?
         </Link>
-        <p
-          onClick={() => props.setState(props.state + 2)}
-          style={{
-            fontSize: "1em",
-            cursor: "pointer",
-            textDecoration: "underLine",
-            color: "blue",
-          }}
-        >
-          {" Enter otp "}
+
+        <p className="link-text" onClick={() => props.setState(props.state + 2)}>
+          Enter OTP directly
         </p>
       </form>
     </div>

@@ -1,77 +1,72 @@
-.login-container {
+.verify-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #f7f8fa;
+  background-color: #f6f8fa;
 }
 
-.login-form {
-  background-color: #fff;
+.verify-form {
+  background: white;
   padding: 2rem 2.5rem;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 100%;
   max-width: 400px;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.login-form h2 {
+.verify-form h2 {
   text-align: center;
   margin-bottom: 1.5rem;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   color: #333;
 }
 
-.login-form input {
+.verify-form input {
   padding: 0.75rem;
   font-size: 1rem;
-  margin-bottom: 0.75rem;
-  border-radius: 8px;
   border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
   outline: none;
   transition: border 0.3s;
 }
 
-.login-form input:focus {
+.verify-form input:focus {
   border-color: #007bff;
 }
 
-.login-form button {
+.verify-form button {
   padding: 0.75rem;
   font-size: 1rem;
   background-color: #007bff;
-  color: white;
   border: none;
   border-radius: 8px;
+  color: white;
   cursor: pointer;
   margin-top: 0.5rem;
   transition: background-color 0.3s;
 }
 
-.login-form button:hover {
+.verify-form button:hover {
   background-color: #0056b3;
 }
 
 .error-text {
   color: red;
   font-size: 0.9rem;
-  margin-top: -0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.center {
-  text-align: center;
+  margin-top: 0.25rem;
 }
 
 .link-text {
-  margin-top: 1rem;
   text-align: center;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: #007bff;
-  text-decoration: underline;
+  margin-top: 1rem;
   cursor: pointer;
+  text-decoration: underline;
 }
 
 .link-text:hover {

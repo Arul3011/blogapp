@@ -1,5 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import "./otp.css"; // External CSS for styling
+
 export const Otp = (props) => {
   const {
     register,
@@ -7,6 +9,7 @@ export const Otp = (props) => {
     setError,
     formState: { errors, isSubmitting },
   } = useForm();
+
   const onSubmit = async (data) => {
     try {
       const dbres = await fetch(
@@ -26,49 +29,34 @@ export const Otp = (props) => {
       if (resjson.states) {
         props.setState(props.state + 2);
       } else {
-        console.log(resjson.message);
         setError("otp", {
           message: resjson.message,
         });
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
-  return (
-    <div className="logindiv">
-      <form className="loginform" onSubmit={handleSubmit(onSubmit)}>
-        <p>VERFIY OTP</p>
-        <div className="">
-          <input
-            style={{
-              margin: "10px auto",
-            }}
-            type="text"
-            maxLength={4}
-            placeholder="otp"
-            {...register("otp", {
-              required: "otp is required",
-            })}
-          />
 
-          <button>{isSubmitting ? "Loading..." : "verfiy OTP"}</button>
-        </div>
-        {errors.otp && <div className="error">{errors.otp.message}</div>}
+  return (
+    <div className="otp-container">
+      <form className="otp-form" onSubmit={handleSubmit(onSubmit)}>
+        <h2>Verify OTP</h2>
+
+        <input
+          type="text"
+          maxLength={4}
+          placeholder="Enter OTP"
+          {...register("otp", { required: "OTP is required" })}
+        />
+        {errors.otp && <p className="error-text">{errors.otp.message}</p>}
+
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Loading..." : "Verify OTP"}
+        </button>
+
         {errors.root && (
-          <div
-            className="error"
-            style={{
-              marginLeft: "50px",
-              marginBottom: "20px",
-              marginTop: "20px",
-              cursor: "pointer",
-              textDecoration: "underLine",
-              color: "blue",
-            }}
-          >
-            {errors.root.message}
-          </div>
+          <p className="error-text link-style">{errors.root.message}</p>
         )}
       </form>
     </div>
